@@ -1,0 +1,172 @@
+.game-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 16px;
+  min-height: 100dvh;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(88vw, 460px);
+}
+
+.level-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.level-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.timer {
+  font-size: 28px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #ffeaa7;
+}
+
+.header-spacer {
+  width: 40px;
+}
+
+.game-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: 2px solid #333;
+  border-radius: 10px;
+  background: #222;
+  color: #b2bec3;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn:hover:not(:disabled) {
+  background: #333;
+  color: #fff;
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #333;
+  border-radius: 10px;
+  background: #222;
+  color: #b2bec3;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.btn-icon:hover {
+  background: #333;
+  color: #fff;
+}
+
+.btn-primary {
+  background: #0984e3;
+  border-color: #0984e3;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #0770c2;
+}
+
+.solved-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 0.3s;
+  backdrop-filter: blur(4px);
+}
+
+.solved-modal {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 20px;
+  padding: 36px;
+  text-align: center;
+  max-width: 320px;
+  width: 90vw;
+  animation: scaleIn 0.3s;
+}
+
+.solved-modal h2 {
+  margin: 0 0 16px;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.solved-stars {
+  font-size: 44px;
+  margin: 8px 0;
+}
+
+.star {
+  color: #333;
+  margin: 0 4px;
+}
+
+.star.filled {
+  color: #ffeaa7;
+  text-shadow: 0 0 12px rgba(255, 234, 167, 0.4);
+}
+
+.solved-time {
+  color: #888;
+  font-size: 18px;
+  margin: 8px 0;
+}
+
+.hint-penalty {
+  color: #fdcb6e;
+  font-size: 13px;
+  margin: 4px 0 12px;
+}
+
+.solved-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

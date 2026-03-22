@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ashishjagrawal.github.io/patches/sitemap.xml

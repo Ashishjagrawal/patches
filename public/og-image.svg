@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#111"/>
+  <!-- Grid preview -->
+  <g transform="translate(100, 120)">
+    <rect x="0" y="0" width="160" height="160" rx="8" fill="#FF6B6B"/>
+    <rect x="170" y="0" width="240" height="80" rx="8" fill="#4ECDC4"/>
+    <rect x="170" y="90" width="240" height="160" rx="8" fill="#45B7D1"/>
+    <rect x="0" y="170" width="80" height="160" rx="8" fill="#FFEAA7"/>
+    <rect x="90" y="170" width="70" height="160" rx="8" fill="#96CEB4"/>
+    <rect x="0" y="340" width="410" height="80" rx="8" fill="#DDA0DD"/>
+    <rect x="420" y="0" width="80" height="420" rx="8" fill="#98D8C8"/>
+  </g>
+  <!-- Title -->
+  <text x="650" y="220" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="80" font-weight="800" fill="#ffeaa7" text-anchor="start">Patches</text>
+  <text x="650" y="280" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="28" fill="#888" text-anchor="start" letter-spacing="3">RECTANGLE LOGIC PUZZLE</text>
+  <!-- Features -->
+  <text x="650" y="360" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="24" fill="#b2bec3" text-anchor="start">250 Levels  ·  5 Difficulties</text>
+  <text x="650" y="400" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="24" fill="#b2bec3" text-anchor="start">Free  ·  No Ads  ·  Works Offline</text>
+  <text x="650" y="470" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="20" fill="#555" text-anchor="start">ashishjagrawal.github.io/patches</text>
+</svg>
