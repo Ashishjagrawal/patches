@@ -19,9 +19,18 @@ export default function HowToPlay({ onBack }) {
           <h3>Clues</h3>
           <p>Each clue shows a <strong>shape icon</strong> and a <strong>number</strong>:</p>
           <ul>
-            <li><span className="icon">■</span> <strong>Square</strong> — width equals height (2×2, 3×3)</li>
-            <li><span className="icon">▬</span> <strong>Wide</strong> — width greater than height (3×1, 4×2)</li>
-            <li><span className="icon">▮</span> <strong>Tall</strong> — height greater than width (1×3, 2×4)</li>
+            <li>
+              <svg className="icon" viewBox="0 0 20 20"><rect x="3" y="3" width="14" height="14" rx="2" fill="currentColor" /></svg>
+              <strong>Square</strong> — width equals height (2×2, 3×3)
+            </li>
+            <li>
+              <svg className="icon" viewBox="0 0 20 20"><rect x="1" y="5" width="18" height="10" rx="2" fill="currentColor" /></svg>
+              <strong>Wide</strong> — width greater than height (3×1, 4×2)
+            </li>
+            <li>
+              <svg className="icon" viewBox="0 0 20 20"><rect x="5" y="1" width="10" height="18" rx="2" fill="currentColor" /></svg>
+              <strong>Tall</strong> — height greater than width (1×3, 2×4)
+            </li>
           </ul>
           <p>The number is the total cells the patch must cover.</p>
         </section>
@@ -48,7 +57,7 @@ export default function HowToPlay({ onBack }) {
 
         <section>
           <h3>Stars</h3>
-          <p>Earn 1-3 stars based on completion time. Using hints caps you at 2 stars.</p>
+          <p>Earn 1–3 stars based on completion time. Using hints caps you at 2 stars.</p>
         </section>
       </div>
     </div>

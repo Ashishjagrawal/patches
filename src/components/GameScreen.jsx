@@ -118,7 +118,7 @@ export default function GameScreen({ level, onBack, onNext }) {
           <span className="level-title">
             Level {level.levelNumber}
           </span>
-          <span className="timer">{formatTime(timer)}</span>
+          <span className={`timer${running && !solved ? ' on' : ''}`}>{formatTime(timer)}</span>
         </div>
         <div className="header-spacer" />
       </div>

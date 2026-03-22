@@ -2,20 +2,20 @@ import { getLevelProgress } from '../utils/storage';
 import './MainMenu.css';
 
 const HARD_TAGS = {
-  hard:   { label: 'Hard',   color: '#e17055' },
-  expert: { label: 'Expert', color: '#d63031' },
-  master: { label: 'Master', color: '#6c5ce7' },
+  hard:   { label: 'Hard',   color: '#D4613E' },
+  expert: { label: 'Expert', color: '#9B59B6' },
+  master: { label: 'Master', color: '#3D322A' },
 };
 
 export default function MainMenu({ levels, onSelectLevel, onHowToPlay }) {
   return (
     <div className="main-menu">
       <div className="logo">
-        <h1>Patches</h1>
+        <h1>P<em>a</em>tches</h1>
         <p className="subtitle">Rectangle Logic Puzzle</p>
       </div>
 
-      <button className="btn how-to-play-btn" onClick={onHowToPlay}>
+      <button className="how-to-play-btn" onClick={onHowToPlay}>
         How to Play
       </button>
 

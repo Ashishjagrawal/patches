@@ -1,12 +1,24 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { SHAPE, findClueInRect, validatePlacement, checkOverlap } from '../utils/puzzleEngine';
-import { getPatchColor } from '../utils/colors';
+import { getPatchColor, getPatchBorder } from '../utils/colors';
 import './Board.css';
 
-const SHAPE_ICONS = {
-  [SHAPE.SQUARE]: '■',
-  [SHAPE.WIDE]: '▬',
-  [SHAPE.TALL]: '▮',
+const SHAPE_SVGS = {
+  [SHAPE.SQUARE]: (
+    <svg viewBox="0 0 20 20" className="clue-icon">
+      <rect x="3" y="3" width="14" height="14" rx="2" fill="currentColor" />
+    </svg>
+  ),
+  [SHAPE.WIDE]: (
+    <svg viewBox="0 0 20 20" className="clue-icon">
+      <rect x="1" y="5" width="18" height="10" rx="2" fill="currentColor" />
+    </svg>
+  ),
+  [SHAPE.TALL]: (
+    <svg viewBox="0 0 20 20" className="clue-icon">
+      <rect x="5" y="1" width="10" height="18" rx="2" fill="currentColor" />
+    </svg>
+  ),
 };
 
 export default function Board({ level, patches, onPlacePatch, onRemovePatch }) {
@@ -41,7 +53,6 @@ export default function Board({ level, patches, onPlacePatch, onRemovePatch }) {
       const cell = getCellFromEvent(e);
       if (!cell) return;
 
-      // Check if clicking on existing patch to remove it
       const patchIdx = patches.findIndex(
         (p) =>
           cell.row >= p.row &&
@@ -89,7 +100,6 @@ export default function Board({ level, patches, onPlacePatch, onRemovePatch }) {
       h: maxRow - minRow + 1,
     };
 
-    // Validate: exactly one clue inside, matches shape+area, no overlap
     const clueIndices = findClueInRect(rect, clues);
     if (clueIndices.length === 1) {
       const ci = clueIndices[0];
@@ -116,17 +126,7 @@ export default function Board({ level, patches, onPlacePatch, onRemovePatch }) {
     };
   }, [dragging, handleEnd]);
 
-  // Build cell map for rendering
-  const cellMap = {};
-  patches.forEach((p, pi) => {
-    for (let r = p.row; r < p.row + p.h; r++) {
-      for (let c = p.col; c < p.col + p.w; c++) {
-        cellMap[`${r}-${c}`] = pi;
-      }
-    }
-  });
-
-  // Current drag preview
+  // Drag preview rect
   let dragRect = null;
   let dragValid = false;
   if (dragging && dragStart && dragEnd) {
@@ -134,12 +134,7 @@ export default function Board({ level, patches, onPlacePatch, onRemovePatch }) {
     const maxRow = Math.max(dragStart.row, dragEnd.row);
     const minCol = Math.min(dragStart.col, dragEnd.col);
     const maxCol = Math.max(dragStart.col, dragEnd.col);
-    dragRect = {
-      row: minRow,
-      col: minCol,
-      w: maxCol - minCol + 1,
-      h: maxRow - minRow + 1,
-    };
+    dragRect = { row: minRow, col: minCol, w: maxCol - minCol + 1, h: maxRow - minRow + 1 };
     const clueIndices = findClueInRect(dragRect, clues);
     if (clueIndices.length === 1) {
       const clue = clues[clueIndices[0]];
@@ -147,74 +142,110 @@ export default function Board({ level, patches, onPlacePatch, onRemovePatch }) {
     }
   }
 
+  // Check which cells are covered by patches
+  const coveredCells = new Set();
+  patches.forEach((p) => {
+    for (let r = p.row; r < p.row + p.h; r++) {
+      for (let c = p.col; c < p.col + p.w; c++) {
+        coveredCells.add(`${r}-${c}`);
+      }
+    }
+  });
+
+  const pctW = 100 / cols;
+  const pctH = 100 / rows;
+
   return (
-    <div
-      className="board"
-      ref={boardRef}
-      style={{
-        gridTemplateColumns: `repeat(${cols}, 1fr)`,
-        gridTemplateRows: `repeat(${rows}, 1fr)`,
-      }}
-      onMouseDown={handleStart}
-      onMouseMove={handleMove}
-      onTouchStart={handleStart}
-      onTouchMove={handleMove}
-      onTouchEnd={handleEnd}
-    >
-      {Array.from({ length: rows * cols }, (_, i) => {
-        const row = Math.floor(i / cols);
-        const col = i % cols;
-        const key = `${row}-${col}`;
-        const patchIndex = cellMap[key];
-        const hasPatch = patchIndex !== undefined;
-        const patch = hasPatch ? patches[patchIndex] : null;
+    <div className="board-wrapper">
+      <div
+        className="board"
+        ref={boardRef}
+        style={{
+          gridTemplateColumns: `repeat(${cols}, 1fr)`,
+          gridTemplateRows: `repeat(${rows}, 1fr)`,
+        }}
+        onMouseDown={handleStart}
+        onMouseMove={handleMove}
+        onTouchStart={handleStart}
+        onTouchMove={handleMove}
+        onTouchEnd={handleEnd}
+      >
+        {/* Grid cells */}
+        {Array.from({ length: rows * cols }, (_, i) => {
+          const row = Math.floor(i / cols);
+          const col = i % cols;
+          const key = `${row}-${col}`;
+          const isCovered = coveredCells.has(key);
+          const clue = clues.find((c) => c.clueRow === row && c.clueCol === col);
 
-        // Is this cell the top-left of its patch?
-        const isPatchOrigin = patch && patch.row === row && patch.col === col;
+          let inDrag = false;
+          if (dragRect) {
+            inDrag =
+              row >= dragRect.row &&
+              row < dragRect.row + dragRect.h &&
+              col >= dragRect.col &&
+              col < dragRect.col + dragRect.w;
+          }
 
-        // Clue in this cell?
-        const clue = clues.find((c) => c.clueRow === row && c.clueCol === col);
+          return (
+            <div
+              key={key}
+              className={`cell${isCovered ? ' covered' : ''}${inDrag ? (dragValid ? ' drag-valid' : ' drag-invalid') : ''}`}
+            >
+              {clue && !isCovered && (
+                <div className="clue">
+                  {SHAPE_SVGS[clue.shape]}
+                  <span className="clue-number">{clue.area}</span>
+                </div>
+              )}
+            </div>
+          );
+        })}
 
-        // Drag preview
-        let inDrag = false;
-        if (dragRect) {
-          inDrag =
-            row >= dragRect.row &&
-            row < dragRect.row + dragRect.h &&
-            col >= dragRect.col &&
-            col < dragRect.col + dragRect.w;
-        }
+        {/* Patch overlays */}
+        {patches.map((p, pi) => {
+          const clue = clues.find(
+            (c) =>
+              c.clueRow >= p.row &&
+              c.clueRow < p.row + p.h &&
+              c.clueCol >= p.col &&
+              c.clueCol < p.col + p.w
+          );
+          return (
+            <div
+              key={`patch-${pi}`}
+              className="patch"
+              style={{
+                left: `${p.col * pctW}%`,
+                top: `${p.row * pctH}%`,
+                width: `${p.w * pctW}%`,
+                height: `${p.h * pctH}%`,
+                backgroundColor: getPatchColor(pi),
+                borderColor: getPatchBorder(pi),
+              }}
+            >
+              {clue && (
+                <span className="patch-label">
+                  {clue.area}
+                </span>
+              )}
+            </div>
+          );
+        })}
 
-        // Border classes for patches
-        let borderClasses = '';
-        if (hasPatch) {
-          if (row === patch.row) borderClasses += ' bt';
-          if (row === patch.row + patch.h - 1) borderClasses += ' bb';
-          if (col === patch.col) borderClasses += ' bl';
-          if (col === patch.col + patch.w - 1) borderClasses += ' br';
-        }
-
-        return (
+        {/* Drag selection overlay */}
+        {dragRect && (
           <div
-            key={key}
-            className={`cell${hasPatch ? ' patched' : ''}${inDrag ? (dragValid ? ' drag-valid' : ' drag-invalid') : ''}${borderClasses}`}
-            style={
-              hasPatch
-                ? {
-                    backgroundColor: getPatchColor(patchIndex),
-                  }
-                : undefined
-            }
-          >
-            {clue && (
-              <div className={`clue${hasPatch ? ' clue-filled' : ''}`}>
-                <span className="clue-shape">{SHAPE_ICONS[clue.shape]}</span>
-                <span className="clue-number">{clue.area}</span>
-              </div>
-            )}
-          </div>
-        );
-      })}
+            className={`selection-overlay${dragValid ? '' : ' invalid'}`}
+            style={{
+              left: `${dragRect.col * pctW}%`,
+              top: `${dragRect.row * pctH}%`,
+              width: `${dragRect.w * pctW}%`,
+              height: `${dragRect.h * pctH}%`,
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 }

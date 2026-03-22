@@ -2,41 +2,46 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px;
-  min-height: 100dvh;
+  padding: 24px 16px 48px;
+  max-width: 520px;
+  margin: 0 auto;
 }
 
 .htp-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: min(90vw, 480px);
-  margin-bottom: 16px;
+  width: 100%;
+  margin-bottom: 24px;
 }
 
 .htp-header h2 {
-  color: #fff;
   margin: 0;
+  font-size: 1.4rem;
 }
 
 .htp-content {
-  width: min(90vw, 480px);
-  color: #dfe6e9;
+  width: 100%;
+  color: var(--text2);
 }
 
 .htp-content section {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  background: var(--cell);
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: var(--s1);
 }
 
 .htp-content h3 {
-  color: #ffeaa7;
+  color: var(--accent);
   margin: 0 0 8px;
-  font-size: 18px;
+  font-size: 1.1rem;
 }
 
 .htp-content p {
-  margin: 4px 0;
-  line-height: 1.5;
+  margin: 6px 0;
+  line-height: 1.6;
 }
 
 .htp-content ul, .htp-content ol {
@@ -45,11 +50,15 @@
 }
 
 .htp-content li {
-  margin: 6px 0;
-  line-height: 1.4;
+  margin: 8px 0;
+  line-height: 1.5;
 }
 
 .htp-content .icon {
-  font-size: 16px;
-  margin-right: 4px;
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  margin-right: 6px;
+  color: var(--text3);
 }

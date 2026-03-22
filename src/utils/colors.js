@@ -1,26 +1,28 @@
 const PATCH_COLORS = [
-  '#FF6B6B', // red
-  '#4ECDC4', // teal
-  '#45B7D1', // sky blue
-  '#96CEB4', // sage green
-  '#FFEAA7', // yellow
-  '#DDA0DD', // plum
-  '#98D8C8', // mint
-  '#F7DC6F', // gold
-  '#BB8FCE', // lavender
-  '#85C1E9', // light blue
-  '#F0B27A', // peach
-  '#82E0AA', // emerald
-  '#F1948A', // salmon
-  '#AED6F1', // powder blue
-  '#D7BDE2', // lilac
-  '#A3E4D7', // aquamarine
-  '#FAD7A0', // apricot
-  '#A9CCE3', // steel blue
-  '#D5F5E3', // honeydew
-  '#FADBD8', // misty rose
+  '#D4613E', // terracotta
+  '#4A9D6E', // green
+  '#3B7DD8', // blue
+  '#C4A035', // gold
+  '#9B59B6', // purple
+  '#E67E22', // orange
+  '#1ABC9C', // teal
+  '#E84393', // pink
+  '#6C5CE7', // indigo
+  '#00B894', // mint
+  '#FD79A8', // rose
+];
+
+// Slightly darker version for borders
+const PATCH_BORDERS = [
+  '#B8512F', '#3D8459', '#2E63AB', '#A3852B', '#7E4599',
+  '#C4691B', '#15997E', '#C43479', '#5649C0', '#009B7A',
+  '#D4638B',
 ];
 
 export function getPatchColor(index) {
   return PATCH_COLORS[index % PATCH_COLORS.length];
+}
+
+export function getPatchBorder(index) {
+  return PATCH_BORDERS[index % PATCH_BORDERS.length];
 }
